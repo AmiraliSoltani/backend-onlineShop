@@ -1,7 +1,0 @@
-{
-    "routes": [
-      { "src": "/products", "dest": "/path-to-your-handler-file" },
-      { "src": "/.*", "dest": "/index.html" }
-    ]
-  }
-  
