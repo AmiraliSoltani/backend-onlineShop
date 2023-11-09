@@ -190,7 +190,7 @@ db.on("error", (err) => {
   console.error(`MongoDB connection error: ${err}`);
 });
 
-const port = process.env.PORT || 3010;
+const port =3010;
 app.listen(port, function () {
   console.log(`Server started on port ${port}`);
 });
