@@ -81,10 +81,15 @@ const productSchema = new mongoose.Schema({
   visited: Number,
   sold: Number,
 });
+const path = require("path");
+
+// Assuming your index.html is in the same directory as your Node.js script
+const indexPath = path.join(__dirname, "index.html");
 
 const Product = mongoose.model("products", productSchema);
 app.get("/", function (req, res) {
-  res.send("hi");
+  //res.send("hi");
+  res.sendFile(indexPath);
 });
 app.get("/products", function (req, res) {
   // Use the "Product" model to find all products
