@@ -2,17 +2,21 @@
   "name": "back-end",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "body-parse": "^0.1.0",
+    "body-parser": "^1.19.0",  // Corrected dependency name
     "ejs": "^3.1.9",
     "express": "^4.18.2",
     "mongoose": "^8.0.0"
+  },
+  "engines": {
+    "node": "14.x"
   }
 }
