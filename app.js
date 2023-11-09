@@ -83,7 +83,9 @@ const productSchema = new mongoose.Schema({
 });
 
 const Product = mongoose.model("products", productSchema);
-
+app.get("/", function (req, res) {
+  res.send("hi");
+});
 app.get("/products", function (req, res) {
   // Use the "Product" model to find all products
   Product.find()
