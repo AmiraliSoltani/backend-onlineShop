@@ -1,9 +1,8 @@
 // api/products.js
 
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 // Import your Mongoose model
-import Product from "path-to-your-model"; // Adjust the path
 
 mongoose.connect(
   "mongodb+srv://asoltani7:wXxeR5GlT4n4X6z1@cluster0.efuoscy.mongodb.net/onlineShop?retryWrites=true&w=majority",
