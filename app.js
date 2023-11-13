@@ -6,7 +6,9 @@ const ejs = require("ejs");
 const mongoose = require("mongoose");
 
 const app = express();
+const cors = require("cors"); // Add this line
 
+app.use(cors()); // Enable CORS for all routes
 app.set("view engine", "ejs");
 
 app.use(
@@ -27,82 +29,82 @@ mongoose.connect(
   }
 );
 
-const productSchema = new mongoose.Schema({
-  title: String,
-  _id: Number,
-  comments: [
-    {
-      vote: Number,
-      memberName: String,
-      date: {
-        day: Number,
-        month: Number,
-        year: Number,
-      },
-      srcOfAvatar: Number,
-      data: {
-        title: String,
-        body: String,
-      },
-    },
-  ],
-  title_En: String,
-  description: String,
-  price: Number,
-  off: String,
-  offerTime: String,
-  categoryId: Number,
-  categoryAttributes: [
-    {
-      id: String,
-      items: [
-        {
-          id: Number,
-          attItem: Number,
-        },
-      ],
-      count: Number,
-    },
-  ],
-  guarantee: {
-    hasGuarantee: Boolean,
-    guranteeDate: String,
-    guranteeName: String,
-  },
-  productPic: {
-    grey: String,
-    grey2: String,
-    grey3: String,
-    grey4: String,
-  },
-  videoUrl: String,
-  vote: Number,
-  dailyRentalRate: [Number],
-  visited: Number,
-  sold: Number,
-});
+// const productSchema = new mongoose.Schema({
+//   title: String,
+//   _id: Number,
+//   comments: [
+//     {
+//       vote: Number,
+//       memberName: String,
+//       date: {
+//         day: Number,
+//         month: Number,
+//         year: Number,
+//       },
+//       srcOfAvatar: Number,
+//       data: {
+//         title: String,
+//         body: String,
+//       },
+//     },
+//   ],
+//   title_En: String,
+//   description: String,
+//   price: Number,
+//   off: String,
+//   offerTime: String,
+//   categoryId: Number,
+//   categoryAttributes: [
+//     {
+//       id: String,
+//       items: [
+//         {
+//           id: Number,
+//           attItem: Number,
+//         },
+//       ],
+//       count: Number,
+//     },
+//   ],
+//   guarantee: {
+//     hasGuarantee: Boolean,
+//     guranteeDate: String,
+//     guranteeName: String,
+//   },
+//   productPic: {
+//     grey: String,
+//     grey2: String,
+//     grey3: String,
+//     grey4: String,
+//   },
+//   videoUrl: String,
+//   vote: Number,
+//   dailyRentalRate: [Number],
+//   visited: Number,
+//   sold: Number,
+// });
+// const Product = mongoose.model("products", productSchema);
 const path = require("path");
 
 // Assuming your index.html is in the same directory as your Node.js script
 const indexPath = path.join(__dirname, "index.html");
 
-const Product = mongoose.model("products", productSchema);
 app.get("/", function (req, res) {
   //res.send("hi");
   res.sendFile(indexPath);
 });
-app.get("/products", function (req, res) {
-  // Use the "Product" model to find all products
-  Product.find()
-    .then((foundProducts) => {
-      console.log(foundProducts);
-      res.send(foundProducts); // Send the products as a response
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Error while fetching products");
-    });
-});
+// app.get("/products", function (req, res) {
+//   // Use the "Product" model to find all products
+//   Product.find()
+//     .then((foundProducts) => {
+//       console.log(foundProducts);
+//       res.send(foundProducts); // Send the products as a response
+//     })
+//     .catch((err) => {
+//       console.error(err);
+//       res.status(500).send("Error while fetching products");
+//     });
+// });
 
 app.get("/products/:id", function (req, res) {
   const productId = req.params.id;
@@ -138,17 +140,17 @@ app.get("/products/category/:categoryId", function (req, res) {
     });
 });
 
-const categorySchema = new mongoose.Schema({
-  categoryPicture: String,
-  iconPic: String,
-  description: String,
-  id: Number,
-  order: Number,
-  parentId: Number,
-  title: String,
-});
+// const categorySchema = new mongoose.Schema({
+//   categoryPicture: String,
+//   iconPic: String,
+//   description: String,
+//   id: Number,
+//   order: Number,
+//   parentId: Number,
+//   title: String,
+// });
 
-const Category = mongoose.model("categories", categorySchema);
+// const Category = mongoose.model("categories", categorySchema);
 
 app.get("/categories", function (req, res) {
   // Use the "Category" model to find all categories
