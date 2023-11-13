@@ -1,6 +1,7 @@
 // api/products.js
 
 const mongoose = require("mongoose");
+const cors = require("micro-cors")();
 
 // Import your Mongoose model
 
@@ -66,7 +67,7 @@ const productSchema = new mongoose.Schema({
 });
 const Product = mongoose.model("products", productSchema);
 
-export default async function handler(req, res) {
+async function handler(req, res) {
   if (req.method !== "GET") {
     return res.status(405).json({ error: "Method Not Allowed" });
   }
@@ -81,3 +82,8 @@ export default async function handler(req, res) {
     res.status(500).json({ error: "Error while fetching products" });
   }
 }
+// Apply CORS middleware to the handler
+const corsHandler = cors(handler);
+
+// Export the modified handler
+export default corsHandler;
