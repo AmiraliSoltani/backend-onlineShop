@@ -78,7 +78,7 @@ module.exports = async (req, res) => {
       console.log(foundProduct);
       res.send(foundProduct);
     } else {
-      res.status(404).send("Product not foundjhjhjhjhhhh", "vvvv");
+      res.status(404).send(`Product with ID ${productId} not found`));
     }
   } catch (error) {
     console.error(error);
