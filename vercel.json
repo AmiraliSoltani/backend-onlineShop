@@ -4,5 +4,6 @@
     { "src": "/categories", "dest": "/api/categories.js" },
     { "src": "/(.*)", "dest": "/index.html" }
   ],
+  
   "rewrites": [{ "source": "/product/:id", "destination": "/api/product/[id].js" }]
 }
