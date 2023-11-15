@@ -69,7 +69,7 @@ const Product = mongoose.model("products", productSchema);
 // api/products/[id].js
 module.exports = async (req, res) => {
   const productId = req.query.id;
-  console.log("reqqqqqqqqqqq", req.method);
+  //console.log("reqqqqqqqqqqq", req.method);
   try {
     const foundProduct = await Product.findById(productId);
     if (foundProduct) {
