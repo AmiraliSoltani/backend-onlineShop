@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 mongoose.connect(
   "mongodb+srv://asoltani7:wXxeR5GlT4n4X6z1@cluster0.efuoscy.mongodb.net/onlineShop?retryWrites=true&w=majority",
   {
-    useNewUrlParser: true,
+    useUnifiedTopology: true, // Add this line
   }
 );
 const productSchema = new mongoose.Schema({
@@ -69,7 +69,7 @@ const Product = mongoose.model("products", productSchema);
 // api/products/[id].js
 
 module.exports = async (req, res) => {
-  const productId = req.params.id;
+  const productId = req.query.id;
   //const productId = 2;
 
   try {
