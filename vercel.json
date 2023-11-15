@@ -3,6 +3,6 @@
     { "src": "/products", "dest": "/api/products.js" },
     { "src": "/product/[id]", "dest": "/api/product/[id].js" },
     { "src": "/categories", "dest": "/api/categories.js" },
-    { "src": "/.*", "dest": "/index.html" }
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
