@@ -70,7 +70,6 @@ const Product = mongoose.model("products", productSchema);
 
 module.exports = async (req, res) => {
   const productId = req.query.id;
-  //const productId = 2;
 
   try {
     const foundProduct = await Product.findById(productId);
