@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 mongoose.connect(
   "mongodb+srv://asoltani7:wXxeR5GlT4n4X6z1@cluster0.efuoscy.mongodb.net/onlineShop?retryWrites=true&w=majority",
   {
-    useUnifiedTopology: true, // Add this line
+    useUnifiedTopology: true,
   }
 );
 const productSchema = new mongoose.Schema({
