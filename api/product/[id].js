@@ -68,19 +68,21 @@ const Product = mongoose.model("products", productSchema);
 
 // api/products/[id].js
 module.exports = async (req, res) => {
-  const productId = req.query.id;
-  console.log(req.method);
-  console.log("hiiiiiiiii");
+  if (req.method == "GET") {
+    const productId = req.query.id;
+    console.log(req.method);
+    console.log("hiiiiiiiii");
 
-  try {
-    const foundProduct = await Product.findById(productId);
-    if (foundProduct) {
-      res.send(foundProduct);
-    } else {
-      res.status(404).send(`Product with ID not found`);
+    try {
+      const foundProduct = await Product.findById(productId);
+      if (foundProduct) {
+        res.send(foundProduct);
+      } else {
+        res.status(404).send(`Product with ID not found`);
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Error while fetching product");
     }
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Error while fetching product");
   }
 };
