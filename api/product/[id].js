@@ -69,11 +69,10 @@ const Product = mongoose.model("products", productSchema);
 // api/products/[id].js
 module.exports = async (req, res) => {
   const productId = req.query.id;
-  console.log(req.method);
+  console.log("reqqqqqqqqqqq", req.method);
   try {
     const foundProduct = await Product.findById(productId);
     if (foundProduct) {
-      console.log(foundProduct);
       res.send(foundProduct);
     } else {
       res.status(404).send(`Product with ID not found`);
