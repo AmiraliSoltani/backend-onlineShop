@@ -87,3 +87,10 @@ const corsHandler = cors(handler);
 
 // Export the modified handler
 export default corsHandler;
+
+// {
+//   "routes": [
+//     { "src": "/products", "dest": "/api/products.js" },
+//     { "src": "/categories", "dest": "/api/categories.js" },
+//     { "src": "/(.*)", "dest": "/index.html" }
+//   ],

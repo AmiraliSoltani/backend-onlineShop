@@ -1,9 +1,10 @@
 {
-  "routes": [
-    { "src": "/products", "dest": "/api/products.js" },
-    { "src": "/categories", "dest": "/api/categories.js" },
-    { "src": "/(.*)", "dest": "/index.html" }
-  ],
-  
-  "rewrites": [{ "source": "/product/:id", "destination": "/api/product/[id].js" }]
+
+  "rewrites": [
+    { "source": "/product/:id", "destination": "/api/product/[id].js" },
+    { "source": "/products", "destination": "/api/products.js" },
+    { "source": "/categories", "destination": "/api/categories.js" },
+    { "source": "/(.*)", "destination": "/index.html" }
+
+  ]
 }
