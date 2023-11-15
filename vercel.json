@@ -1,7 +1,7 @@
 {
 
   "rewrites": [
-    { "source": "/product/:id", "destination": "/api/product/[id].js" },
+    { "source": "/product/:id", "methods": ["GET"], "destination": "/api/product/[id].js" },
     { "source": "/products", "destination": "/api/products.js" },
     { "source": "/categories", "destination": "/api/categories.js" },
     { "source": "/(.*)", "destination": "/index.html" }
