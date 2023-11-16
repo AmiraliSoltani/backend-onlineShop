@@ -2,6 +2,7 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
+const cors = require("micro-cors")();
 
 // Import your Mongoose model
 
@@ -69,7 +70,7 @@ const productSchema = new mongoose.Schema({
 });
 const Product = mongoose.model("products", productSchema);
 
-module.exports = async (req, res) => {
+async function handler(req, res) {
   if (req.method === "GET") {
     const productId = req.query.id;
     console.log(req.method);
@@ -129,4 +130,9 @@ module.exports = async (req, res) => {
   } else {
     res.status(405).send("Method Not Allowed");
   }
-};
+}
+
+const corsHandler = cors(handler);
+
+// Export the modified handler
+export default corsHandler;
