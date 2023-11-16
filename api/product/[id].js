@@ -2,6 +2,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
+const mongoose = require("mongoose");
+
+// Import your Mongoose model
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -70,7 +73,8 @@ const productSchema = new mongoose.Schema({
   sold: Number,
 });
 const Product = mongoose.model("products", productSchema);
-app.use(async (req, res) => {
+
+app.use(async (req, res, next) => {
   if (req.method === "GET") {
     const productId = req.query.id;
     console.log(req.method);
