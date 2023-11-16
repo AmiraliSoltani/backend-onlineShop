@@ -43,7 +43,7 @@ app.patch("/api/products/:id", async (req, res) => {
   console.log(req.body);
   const bodyData = req.body;
 
-  const productId = req.params.id;
+  const productId = req.query.id;
   const { vote, memberName, data, srcOfAvatar } = bodyData;
   console.log(memberName);
   console.log("shttttttttttt");
