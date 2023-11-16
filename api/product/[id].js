@@ -99,6 +99,10 @@ async function handler(req, res) {
     try {
       const foundProduct = await Product.findById(productId);
       if (foundProduct) {
+        // Increment the visited count by 1
+        foundProduct.visited = (foundProduct.visited || 0) + 1;
+        // Save the updated visited count
+        await foundProduct.save();
         res.send(foundProduct);
       } else {
         res.status(404).send(`Product with ID not found`);
