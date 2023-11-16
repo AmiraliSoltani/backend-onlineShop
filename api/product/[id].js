@@ -88,20 +88,8 @@ module.exports = async (req, res) => {
     console.log("heeeeeeeeeee");
     console.log(req.body);
 
-    const vote = req.body.vote;
-    const memberName = req.body.memberName;
-    const srcOfAvatar = req.body.srcOfAvatar;
-    const title = req.body.data.title;
-    const body = req.body.data.body;
-
-    // Use these variables as needed in your code
-    console.log("Vote:", vote);
-    console.log("Member Name:", memberName);
-    console.log("Source of Avatar:", srcOfAvatar);
-    console.log("Title:", title);
-    console.log("Body:", body);
-
     const productId = req.query.id;
+    const { vote, memberName, data, srcOfAvatar } = req.body;
     console.log(req.body.memberName);
     console.log("shttttttttttt");
 
