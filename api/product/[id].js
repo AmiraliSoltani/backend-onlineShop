@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const cors = require("micro-cors")({
-  allowMethods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
+  allowMethods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE", "OPTION"],
   allowHeaders: ["Authorization", "Content-Type"],
   origin: "http://localhost:3000", // Replace with the origin of your React app
 });
