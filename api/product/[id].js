@@ -19,7 +19,7 @@ app.use(cors); // Enable CORS for all routes
 // Define the schema and model
 
 // Define the routes
-app.get("/api/products", async (req, res) => {
+app.get("/api/products/:id", async (req, res) => {
   const productId = req.query.id;
   console.log(req.method);
   console.log("hiiiiiiiii");
