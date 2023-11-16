@@ -174,6 +174,7 @@ module.exports = async (req, res) => {
     const test = req.body;
     console.log("vvvvvvvvvvvvvvv");
     console.log(test);
+    console.log(typeof test);
     console.log(test["vote"]);
 
     const productId = req.query.id;
