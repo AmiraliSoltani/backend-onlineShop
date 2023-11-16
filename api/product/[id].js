@@ -81,7 +81,7 @@ app.use((req, res, next) => {
 
   req.on("end", () => {
     console.log("Received data:", data);
-    console.log("Received data22:", data.vote);
+    console.log("Received data22:", data[vote]);
 
     next();
   });
