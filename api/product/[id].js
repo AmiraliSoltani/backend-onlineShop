@@ -90,13 +90,9 @@ module.exports = async (req, res) => {
     console.log("heeeeeeeeeee");
     console.log(req.body);
     const bodyData = JSON.parse(req.body);
-    console.log("vvvvvvvvvvvvvvv");
-    console.log(bodyData);
-    console.log(typeof bodyData);
-    console.log(bodyData["vote"]);
 
     const productId = req.query.id;
-    const { vote, memberName, data, srcOfAvatar } = req.body;
+    const { vote, memberName, data, srcOfAvatar } = bodyData;
     console.log(memberName);
     console.log("shttttttttttt");
     console.log(srcOfAvatar);
