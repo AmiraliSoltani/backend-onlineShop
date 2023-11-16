@@ -134,5 +134,5 @@ async function handler(req, res) {
 
 const corsHandler = cors(handler);
 
-// Export the modified handler
-export default corsHandler;
+// Apply CORS to the handler and export it
+module.exports = corsHandler;
