@@ -112,7 +112,7 @@ async function handler(req, res) {
 
     console.log("heeeeeeeeeee");
     console.log(req.body);
-    const bodyData = JSON.parse(req.body);
+    //const bodyData = JSON.parse(req.body);
 
     const productId = req.query.id;
     const { vote, data, srcOfAvatar } = req.body;
