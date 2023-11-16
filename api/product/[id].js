@@ -84,5 +84,42 @@ module.exports = async (req, res) => {
       console.error(error);
       res.status(500).send("Error while fetching product");
     }
+  } else if (req.method == "PATCH") {
+    console.log("heeeeeeeeeee");
+    console.log(req.body);
+    const productId = req.query.id;
+    const { vote, memberName, data, srcOfAvatar } = req.body;
+
+    try {
+      const foundProduct = await Product.findById(productId);
+      if (foundProduct) {
+        // Add a new comment to the beginning of the product's comments array
+        foundProduct.comments.unshift({
+          vote: vote,
+          memberName: memberName,
+          date: {
+            day: new Date().getDate(),
+            month: new Date().getMonth() + 1,
+            year: new Date().getFullYear(),
+          },
+          srcOfAvatar: srcOfAvatar,
+          data: {
+            title: data.title,
+            body: data.body,
+          },
+        });
+
+        // Save the updated product with the new comment
+        const updatedProduct = await foundProduct.save();
+        res.status(200).send(updatedProduct);
+      } else {
+        res.status(404).send(`Product with ID ${productId} not found`);
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Error while updating product");
+    }
+  } else {
+    res.status(405).send("Method Not Allowed");
   }
 };
