@@ -116,6 +116,7 @@ async function handler(req, res) {
 
     const productId = req.query.id;
     const { vote, memberName, data, srcOfAvatar } = bodyData;
+    memberName = "amir";
     console.log(memberName);
     console.log("shttttttttttt");
     console.log(srcOfAvatar);
