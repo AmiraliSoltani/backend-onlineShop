@@ -8,7 +8,6 @@ const mongoose = require("mongoose");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-const mongoose = require("mongoose");
 
 // Import your Mongoose model
 
