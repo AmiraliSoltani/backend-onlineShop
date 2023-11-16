@@ -74,9 +74,15 @@ const productSchema = new mongoose.Schema({
 const Product = mongoose.model("products", productSchema);
 
 app.use((req, res, next) => {
-  console.log("ssssssssssssssssssssssssss");
-  console.log(req.body);
-  next();
+  let data = "";
+  req.on("data", (chunk) => {
+    data += chunk;
+  });
+
+  req.on("end", () => {
+    console.log("Received data:", data);
+    next();
+  });
 });
 
 app.use(async (req, res, next) => {
