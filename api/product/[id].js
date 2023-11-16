@@ -92,7 +92,7 @@ module.exports = async (req, res) => {
     console.log(req.body.memberName);
     console.log("shttttttttttt");
 
-    console.log(req.body.data);
+    console.log(req.body.srcOfAvatar);
 
     try {
       const foundProduct = await Product.findById(productId);
