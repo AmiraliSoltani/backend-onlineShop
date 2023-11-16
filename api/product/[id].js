@@ -73,6 +73,12 @@ const productSchema = new mongoose.Schema({
 });
 const Product = mongoose.model("products", productSchema);
 
+app.use((req, res, next) => {
+  console.log("ssssssssssssssssssssssssss");
+  console.log(req.body);
+  next();
+});
+
 app.use(async (req, res, next) => {
   if (req.method === "GET") {
     const productId = req.query.id;
