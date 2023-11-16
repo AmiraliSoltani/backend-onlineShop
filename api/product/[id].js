@@ -1,13 +1,9 @@
 // api/products.js
 const express = require("express");
-const bodyParser = require("body-parser");
 const app = express();
 const mongoose = require("mongoose");
 
 // Import your Mongoose model
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 // Import your Mongoose model
 
@@ -73,84 +69,6 @@ const productSchema = new mongoose.Schema({
 });
 const Product = mongoose.model("products", productSchema);
 
-// app.use((req, res, next) => {
-//   let data = {};
-//   req.on("data", (chunk) => {
-//     data += chunk;
-//   });
-
-//   req.on("end", () => {
-//     console.log("Received data:", data);
-//     console.log("Received data22:", data["vote"]);
-
-//     next();
-//   });
-// });
-
-// app.use(async (req, res, next) => {
-//   if (req.method === "GET") {
-//     const productId = req.query.id;
-//     console.log(req.method);
-//     console.log("hiiiiiiiii");
-
-//     try {
-//       const foundProduct = await Product.findById(productId);
-//       if (foundProduct) {
-//         res.send(foundProduct);
-//       } else {
-//         res.status(404).send(`Product with ID not found`);
-//       }
-//     } catch (error) {
-//       console.error(error);
-//       res.status(500).send("Error while fetching product");
-//     }
-//   } else if (req.method === "PATCH") {
-//     console.log("heeeeeeeeeee");
-//     console.log(req.body);
-
-//     const productId = req.query.id;
-//     const { vote, memberName, data, srcOfAvatar } = req.body;
-//     console.log(memberName);
-//     console.log("shttttttttttt");
-//     console.log(srcOfAvatar);
-
-//     try {
-//       const foundProduct = await Product.findById(productId);
-//       if (foundProduct) {
-//         // Add a new comment to the beginning of the product's comments array
-//         foundProduct.comments.unshift({
-//           vote: vote,
-//           memberName: memberName,
-//           date: {
-//             day: new Date().getDate(),
-//             month: new Date().getMonth() + 1,
-//             year: new Date().getFullYear(),
-//           },
-//           srcOfAvatar: srcOfAvatar,
-//           data: {
-//             title: data.title,
-//             body: data.body,
-//           },
-//         });
-
-//         // Save the updated product with the new comment
-//         const updatedProduct = await foundProduct.save();
-//         res.status(200).send(updatedProduct);
-//       } else {
-//         res.status(404).send(`Product with ID ${productId} not found`);
-//       }
-//     } catch (error) {
-//       console.error(error);
-//       res.status(500).send("Error while updating product");
-//     }
-//   } else {
-//     res.status(405).send("Method Not Allowed");
-//   }
-// });
-
-// module.exports = app;
-
-// // api/products/[id].js
 module.exports = async (req, res) => {
   if (req.method === "GET") {
     const productId = req.query.id;
@@ -171,11 +89,11 @@ module.exports = async (req, res) => {
   } else if (req.method === "PATCH") {
     console.log("heeeeeeeeeee");
     console.log(req.body);
-    const test = req.body;
+    const bodyData = JSON.parse(req.body);
     console.log("vvvvvvvvvvvvvvv");
-    console.log(test);
-    console.log(typeof test);
-    console.log(test["vote"]);
+    console.log(bodyData);
+    console.log(typeof bodyData);
+    console.log(bodyData["vote"]);
 
     const productId = req.query.id;
     const { vote, memberName, data, srcOfAvatar } = req.body;
