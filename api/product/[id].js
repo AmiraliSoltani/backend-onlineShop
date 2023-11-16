@@ -152,7 +152,7 @@ const Product = mongoose.model("products", productSchema);
 
 // // api/products/[id].js
 module.exports = async (req, res) => {
-  if (req.method == "GET") {
+  if (req.method === "GET") {
     const productId = req.query.id;
     console.log(req.method);
     console.log("hiiiiiiiii");
@@ -168,16 +168,15 @@ module.exports = async (req, res) => {
       console.error(error);
       res.status(500).send("Error while fetching product");
     }
-  } else if (req.method == "PATCH") {
+  } else if (req.method === "PATCH") {
     console.log("heeeeeeeeeee");
     console.log(req.body);
 
     const productId = req.query.id;
     const { vote, memberName, data, srcOfAvatar } = req.body;
-    console.log(req.body.memberName);
+    console.log(memberName);
     console.log("shttttttttttt");
-    l;
-    console.log(req.body.srcOfAvatar);
+    console.log(srcOfAvatar);
 
     try {
       const foundProduct = await Product.findById(productId);
