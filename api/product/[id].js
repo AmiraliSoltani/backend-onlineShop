@@ -171,6 +171,10 @@ module.exports = async (req, res) => {
   } else if (req.method === "PATCH") {
     console.log("heeeeeeeeeee");
     console.log(req.body);
+    const test = req.body;
+    console.log("vvvvvvvvvvvvvvv");
+    console.log(test);
+    console.log(test["vote"]);
 
     const productId = req.query.id;
     const { vote, memberName, data, srcOfAvatar } = req.body;
