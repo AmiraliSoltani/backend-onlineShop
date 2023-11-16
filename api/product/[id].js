@@ -89,6 +89,10 @@ module.exports = async (req, res) => {
     console.log(req.body);
     const productId = req.query.id;
     const { vote, memberName, data, srcOfAvatar } = req.body;
+    console.log(memberName);
+    console.log("shttttttttttt");
+
+    console.log(data);
 
     try {
       const foundProduct = await Product.findById(productId);
