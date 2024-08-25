@@ -82,6 +82,34 @@ async function handler(req, res) {
     res.status(500).json({ error: "Error while fetching products" });
   }
 }
+
+const updateProductSpecifications = async () => {
+  await Product.updateOne(
+    { _id: 1 },
+    {
+      $set: {
+        specifications: [
+          { key: "Material", value: "Cotton" },
+          { key: "Suitable Season", value: "Spring and Autumn" },
+          { key: "Fit", value: "Regular" },
+          { key: "Color", value: "Red" },
+          { key: "Size", value: "S, M, L, XL" },
+          { key: "Pattern", value: "Solid" },
+          { key: "Neckline", value: "Round Neck" },
+          { key: "Sleeve Length", value: "Long Sleeve" },
+          { key: "Care Instructions", value: "Machine Washable" },
+          { key: "Origin", value: "Made in Turkey" }
+        ]
+      }
+    }
+  );
+};
+
+updateProductSpecifications().then(() => {
+  console.log('Product specifications updated successfully');
+}).catch(err => {
+  console.error('Error updating product specifications:', err);
+});
 // Apply CORS middleware to the handler
 const corsHandler = cors(handler);
 

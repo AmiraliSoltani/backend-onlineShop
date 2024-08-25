@@ -17,6 +17,61 @@ mongoose.connect(
     useUnifiedTopology: true,
   }
 );
+// const productSchema = new mongoose.Schema({
+//   title: String,
+//   _id: Number,
+//   comments: [
+//     {
+//       vote: Number,
+//       memberName: String,
+//       date: {
+//         day: Number,
+//         month: Number,
+//         year: Number,
+//       },
+//       srcOfAvatar: Number,
+//       data: {
+//         title: String,
+//         body: String,
+//       },
+//     },
+//   ],
+//   title_En: String,
+//   description: String,
+//   price: Number,
+//   off: String,
+//   offerTime: String,
+//   categoryId: Number,
+//   categoryAttributes: [
+//     {
+//       id: String,
+//       items: [
+//         {
+//           id: Number,
+//           attItem: Number,
+//         },
+//       ],
+//       count: Number,
+//     },
+//   ],
+//   guarantee: {
+//     hasGuarantee: Boolean,
+//     guranteeDate: String,
+//     guranteeName: String,
+//   },
+//   productPic: {
+//     grey: String,
+//     grey2: String,
+//     grey3: String,
+//     grey4: String,
+//   },
+//   videoUrl: String,
+//   vote: Number,
+//   dailyRentalRate: [Number],
+//   visited: Number,
+//   sold: Number,
+// });
+
 const productSchema = new mongoose.Schema({
   title: String,
   _id: Number,
@@ -70,7 +125,25 @@ const productSchema = new mongoose.Schema({
   dailyRentalRate: [Number],
   visited: Number,
   sold: Number,
+  productHighlights: [
+    {
+      content: String,
+    },
+  ],
+  specifications: {
+    material: String,
+    fit: String,
+    suitableSeason: String,
+    pattern: String,
+    occasion: String,
+    sleeveLength: String,
+    collarType: String,
+    closureType: String,
+    careInstructions: String,
+  },
 });
+
+
 const Product = mongoose.model("products", productSchema);
 
 async function handler(req, res) {
