@@ -125,11 +125,7 @@ const productSchema = new mongoose.Schema({
   dailyRentalRate: [Number],
   visited: Number,
   sold: Number,
-  productHighlights: [
-    {
-      content: String,
-    },
-  ],
+  productHighlights: String,
   specifications: {
     material: String,
     fit: String,
