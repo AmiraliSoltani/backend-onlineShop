@@ -73,6 +73,7 @@ mongoose.connect(
 // });
 
 const productSchema = new mongoose.Schema({
+  id:Number,
   title: String,
   _id: Number,
   comments: [
@@ -181,23 +182,13 @@ async function handler(req, res) {
       res.status(500).send("Error while fetching product");
     }
   } else if (req.method === "PATCH") {
-    res.setHeader("Content-Type", "application/json"); // Set the content type if not set
-
-    console.log("heeeeeeeeeee");
-    console.log(req.body);
-    //const bodyData = JSON.parse(req.body);
-
-    const productId = req.query.id;
-    const { vote, data, srcOfAvatar } = req.body;
-    const memberName = "amir";
-    console.log(memberName);
-    console.log("shttttttttttt");
-    console.log(srcOfAvatar);
-
+    const productId = req.params.id;  // Access dynamic id from the URL
+    const { vote, data, srcOfAvatar, memberName } = req.body;
+  
     try {
-      const foundProduct = await Product.findById(productId);
+      const foundProduct = await Product.findOne({ id: productId });  // Find by custom 'id'
       if (foundProduct) {
-        // Add a new comment to the beginning of the product's comments array
+        // Update comments
         foundProduct.comments.unshift({
           vote: vote,
           memberName: memberName,
@@ -212,8 +203,7 @@ async function handler(req, res) {
             body: data.body,
           },
         });
-
-        // Save the updated product with the new comment
+  
         const updatedProduct = await foundProduct.save();
         res.status(200).send(updatedProduct);
       } else {
@@ -223,7 +213,10 @@ async function handler(req, res) {
       console.error(error);
       res.status(500).send("Error while updating product");
     }
-  } else {
+  }
+  
+  
+  else {
     res.status(405).send("Method Not Allowed");
   }
 }
