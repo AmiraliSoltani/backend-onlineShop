@@ -182,7 +182,7 @@ async function handler(req, res) {
       res.status(500).send("Error while fetching product");
     }
   } else if (req.method === "PATCH") {
-    const productId = req.params.id;  // Access dynamic id from the URL
+    const productId = req.query.id;  // Access dynamic id from the URL
     const { vote, data, srcOfAvatar, memberName } = req.body;
   
     try {
