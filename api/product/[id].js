@@ -90,25 +90,46 @@ async function handler(req, res) {
   }
 
   if (req.method === "GET") {
-    const productId = req.query.id;
-    console.log(req.method);
-    console.log("hiiiiiiiii");
+        const productId = req.query.id;
 
+        // Handle GET request - Fetch product by custom `id` field and increment the `visited` count
     try {
-      const foundProduct = await Product.findById(productId);
-      if (foundProduct) {
-        // Increment the visited count by 1
-        foundProduct.visited = (foundProduct.visited || 0) + 1;
-        // Save the updated visited count
-        await foundProduct.save();
-        res.send(foundProduct);
+      const updatedProduct = await Product.findOneAndUpdate(
+        { id: Number(productId) }, // Query by custom `id` field
+        { $inc: { visited: 1 } },  // Increment the visited count
+        { new: true }  // Return the updated product
+      );
+
+      if (updatedProduct) {
+        res.status(200).json(updatedProduct);
       } else {
-        res.status(404).send(`Product with ID not found`);
+        res.status(404).send(`Product with ID ${productId} not found`);
       }
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching product:", error);
       res.status(500).send("Error while fetching product");
     }
+    // const productId = req.query.id;
+    // console.log(req.method);
+    // console.log("hiiiiiiiii");
+
+    // try {
+    //   const foundProduct = await Product.findById(productId);
+    //   if (foundProduct) {
+    //     // Increment the visited count by 1
+    //     foundProduct.visited = (foundProduct.visited || 0) + 1;
+    //     // Save the updated visited count
+    //     await foundProduct.save();
+    //     res.send(foundProduct);
+    //   } else {
+    //     res.status(404).send(`Product with ID not found`);
+    //   }
+    // } catch (error) {
+    //   console.error(error);
+    //   res.status(500).send("Error while fetching product");
+    // }
+
+
   } else if (req.method === "PATCH") {
     const productId = req.query.id;
     res.setHeader("Content-Type", "application/json"); // Set the content type if not set
