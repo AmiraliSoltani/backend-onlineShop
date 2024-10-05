@@ -19,7 +19,7 @@ mongoose.connect(
 );
 const productSchema = new mongoose.Schema({
   title: String,
-  _id: Number,
+  id: Number,
   comments: [
     {
       vote: Number,
@@ -172,6 +172,7 @@ async function handler(req, res) {
       }
     }
   } else if (req.method === "DELETE") {
+    const productId = req.query.id;
     // Handle DELETE request - Delete a product by ID
     try {
       const deletedProduct = await Product.findOneAndDelete({ id: Number(productId) }); // Query by `id`, not `_id`
