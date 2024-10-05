@@ -192,5 +192,6 @@ async function handler(req, res) {
     res.status(405).send("Method not allowed");
   }
 }
+const corsHandler = cors(handler);
 
-module.exports = handler;
+module.exports = corsHandler;
