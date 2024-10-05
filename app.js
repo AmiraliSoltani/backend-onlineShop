@@ -36,61 +36,7 @@ mongoose.connect(
   }
 );
 
-// const productSchema = new mongoose.Schema({
-//   title: String,
-//   _id: Number,
-//   comments: [
-//     {
-//       vote: Number,
-//       memberName: String,
-//       date: {
-//         day: Number,
-//         month: Number,
-//         year: Number,
-//       },
-//       srcOfAvatar: Number,
-//       data: {
-//         title: String,
-//         body: String,
-//       },
-//     },
-//   ],
-//   title_En: String,
-//   description: String,
-//   price: Number,
-//   off: String,
-//   offerTime: String,
-//   categoryId: Number,
-//   categoryAttributes: [
-//     {
-//       id: String,
-//       items: [
-//         {
-//           id: Number,
-//           attItem: Number,
-//         },
-//       ],
-//       count: Number,
-//     },
-//   ],
-//   guarantee: {
-//     hasGuarantee: Boolean,
-//     guranteeDate: String,
-//     guranteeName: String,
-//   },
-//   productPic: {
-//     grey: String,
-//     grey2: String,
-//     grey3: String,
-//     grey4: String,
-//   },
-//   videoUrl: String,
-//   vote: Number,
-//   dailyRentalRate: [Number],
-//   visited: Number,
-//   sold: Number,
-// });
-// const Product = mongoose.model("products", productSchema);
+
 const path = require("path");
 
 // Assuming your index.html is in the same directory as your Node.js script
@@ -100,18 +46,7 @@ app.get("/", function (req, res) {
   //res.send("hi");
   res.sendFile(indexPath);
 });
-// app.get("/products", function (req, res) {
-//   // Use the "Product" model to find all products
-//   Product.find()
-//     .then((foundProducts) => {
-//       console.log(foundProducts);
-//       res.send(foundProducts); // Send the products as a response
-//     })
-//     .catch((err) => {
-//       console.error(err);
-//       res.status(500).send("Error while fetching products");
-//     });
-// });
+
 
 app.get("/products/:id", function (req, res) {
   const productId = req.params.id;
@@ -132,65 +67,54 @@ app.get("/products/:id", function (req, res) {
     });
 });
 
-app.get("/products/category/:categoryId", function (req, res) {
-  const categoryId = req.params.categoryId;
+// app.get("/products/category/:categoryId", function (req, res) {
+//   const categoryId = req.params.categoryId;
 
-  // Use the "Product" model to find products based on the category ID
-  Product.find({ categoryId: categoryId })
-    .then((foundProducts) => {
-      console.log(foundProducts);
-      res.send(foundProducts);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Error while fetching products");
-    });
-});
-
-// const categorySchema = new mongoose.Schema({
-//   categoryPicture: String,
-//   iconPic: String,
-//   description: String,
-//   id: Number,
-//   order: Number,
-//   parentId: Number,
-//   title: String,
+//   // Use the "Product" model to find products based on the category ID
+//   Product.find({ categoryId: categoryId })
+//     .then((foundProducts) => {
+//       console.log(foundProducts);
+//       res.send(foundProducts);
+//     })
+//     .catch((err) => {
+//       console.error(err);
+//       res.status(500).send("Error while fetching products");
+//     });
 // });
 
-// const Category = mongoose.model("categories", categorySchema);
 
-app.get("/categories", function (req, res) {
-  // Use the "Category" model to find all categories
-  Category.find()
-    .then((foundCategories) => {
-      console.log(foundCategories);
-      res.send(foundCategories);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Error while fetching categories");
-    });
-});
+// app.get("/categories", function (req, res) {
+//   // Use the "Category" model to find all categories
+//   Category.find()
+//     .then((foundCategories) => {
+//       console.log(foundCategories);
+//       res.send(foundCategories);
+//     })
+//     .catch((err) => {
+//       console.error(err);
+//       res.status(500).send("Error while fetching categories");
+//     });
+// });
 
-app.get("/categories/:id", function (req, res) {
-  const categoryId = req.params.id;
+// app.get("/categories/:id", function (req, res) {
+//   const categoryId = req.params.id;
 
-  // Use the "Category" model to find the specific category by ID
-  // Use the "Product" model to find the specific product by custom ID
-  Category.findOne({ id: categoryId })
-    .then((foundCategory) => {
-      if (foundCategory) {
-        console.log(foundCategory);
-        res.send(foundCategory);
-      } else {
-        res.status(404).send("category not found");
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Error while fetching category");
-    });
-});
+//   // Use the "Category" model to find the specific category by ID
+//   // Use the "Product" model to find the specific product by custom ID
+//   Category.findOne({ id: categoryId })
+//     .then((foundCategory) => {
+//       if (foundCategory) {
+//         console.log(foundCategory);
+//         res.send(foundCategory);
+//       } else {
+//         res.status(404).send("category not found");
+//       }
+//     })
+//     .catch((err) => {
+//       console.error(err);
+//       res.status(500).send("Error while fetching category");
+//     });
+// });
 
 const db = mongoose.connection;
 
