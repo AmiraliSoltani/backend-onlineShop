@@ -60,10 +60,8 @@ const productSchema = new mongoose.Schema({
     guranteeName: String,
   },
   productPic: {
-    grey: String,
-    grey2: String,
-    grey3: String,
-    grey4: String,
+    type: Map,
+    of: String,
   },
   videoUrl: String,
   vote: Number,
