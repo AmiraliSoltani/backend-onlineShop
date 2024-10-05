@@ -87,6 +87,7 @@ async function handler(req, res) {
 
   //const { id } = req.query; // Extract 'id' from the request query
   const { id } = req.query;
+  console.log("Received ID:", id);
 
   if (req.method === "GET") {
     // Fetch product by ID
