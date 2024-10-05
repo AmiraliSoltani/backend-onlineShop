@@ -17,6 +17,18 @@ const corsOptions = {
   credentials: true, // Enable cookies and authorization headers
 };
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');  // Allow all origins
+  res.setHeader('Access-Control-Allow-Methods', 'GET, PATCH, POST, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    // Handle preflight requests
+    if (req.method === 'OPTIONS') {
+      return res.status(200).end();
+    }
+  
+    next();  // Continue to the next middleware or route handler
+  });
+
 app.use(cors(corsOptions));
 app.set("view engine", "ejs");
 
