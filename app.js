@@ -9,11 +9,17 @@ const app = express();
 // Middleware to enable CORS for all routes
 const cors = require("cors");
 
+// const corsOptions = {
+//   origin: "*", // Allow any origin for now, can be restricted to specific domains
+//   methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
+//   allowedHeaders: "Content-Type, Authorization",
+//   credentials: true, // Include credentials like cookies in requests
+// };
+
 const corsOptions = {
-  origin: "*", // Allow any origin for now, can be restricted to specific domains
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
-  allowedHeaders: "Content-Type, Authorization",
-  credentials: true, // Include credentials like cookies in requests
+  origin: "http://localhost:3000", // Replace with your React app origin
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true, // Enable cookies and authorization headers
 };
 
 // Apply the CORS middleware
