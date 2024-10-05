@@ -7,37 +7,24 @@ const mongoose = require("mongoose");
 const path = require("path");
 
 const app = express();
-const cors = require("cors"); // Enable CORS
 
+// Enable body parsing middleware
 app.use(bodyParser.json());
-app.use(cors()); // Enable CORS for all routes
-const corsOptions = {
-  origin: "http://localhost:3000", // Replace with your React app origin
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true, // Enable cookies and authorization headers
-};
+app.use(bodyParser.urlencoded({ extended: true }));
 
+// Set up CORS headers manually
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');  // Allow all origins
   res.setHeader('Access-Control-Allow-Methods', 'GET, PATCH, POST, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    // Handle preflight requests
-    if (req.method === 'OPTIONS') {
-      return res.status(200).end();
-    }
   
-    next();  // Continue to the next middleware or route handler
-  });
+  // Handle preflight requests (OPTIONS)
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
 
-app.use(cors(corsOptions));
-app.set("view engine", "ejs");
-
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  })
-);
-
+  next();  // Continue to the next middleware or route handler
+});
 // Connect to MongoDB Atlas
 mongoose.connect(
   "mongodb+srv://asoltani7:wXxeR5GlT4n4X6z1@cluster0.efuoscy.mongodb.net/onlineShop?retryWrites=true&w=majority",
