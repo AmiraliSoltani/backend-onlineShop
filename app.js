@@ -1,33 +1,34 @@
-// jshint esversion:6
+//jshint esversion:6
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
 
 const app = express();
-const cors = require("cors");
+const cors = require("cors"); // Add this line
 
-// CORS options: Allow all origins and methods
+app.use(cors()); // Enable CORS for all routes
 const corsOptions = {
-  origin: "*", // Allow all origins
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE", // Allow these HTTP methods
-  allowedHeaders: "Content-Type, Authorization", // Allow specific headers
-  credentials: true, // Allow cookies and credentials
+  origin: "http://localhost:3000", // Replace with the origin of your React app
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true, // Enable cookies and authorization headers
 };
 
-// Apply the CORS middleware globally to all routes
 app.use(cors(corsOptions));
-
 app.set("view engine", "ejs");
 
-// Body parser middleware
 app.use(
   bodyParser.urlencoded({
     extended: true,
   })
 );
+//app.use(express.static("public"));
 
-// MongoDB connection
+// mongoose.connect("mongodb://127.0.0.1:27017/onlineShop", {
+//   useNewUrlParser: true,
+// });
+
 mongoose.connect(
   "mongodb+srv://asoltani7:wXxeR5GlT4n4X6z1@cluster0.efuoscy.mongodb.net/onlineShop?retryWrites=true&w=majority",
   {
@@ -35,24 +36,31 @@ mongoose.connect(
   }
 );
 
-// Serving the index.html file
+
 const path = require("path");
+
+// Assuming your index.html is in the same directory as your Node.js script
 const indexPath = path.join(__dirname, "index.html");
 
 app.get("/", function (req, res) {
+  //res.send("hi");
   res.sendFile(indexPath);
 });
 
-// MongoDB connection status listeners
+
+
 const db = mongoose.connection;
+
+// Event listener for successful connection
 db.once("connected", () => {
   console.log("Connected to MongoDB Atlas");
 });
+
+// Event listener for connection errors
 db.on("error", (err) => {
   console.error(`MongoDB connection error: ${err}`);
 });
 
-// Start the server
 const port = process.env.PORT || 3010;
 app.listen(port, function () {
   console.log(`Server started on port ${port}`);
