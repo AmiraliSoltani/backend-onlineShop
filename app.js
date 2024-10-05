@@ -9,7 +9,9 @@ const app = express();
 
 // Define CORS options
 const corsOptions = {
-  origin: "*", // Allow all origins. You can restrict this to specific domains if needed.
+  // origin: "*", // Allow all origins. You can restrict this to specific domains if needed.
+  origin: "http://localhost:3000", // Replace with your React app origin
+
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
   allowedHeaders: "Content-Type, Authorization", // Ensure you include Authorization header
   credentials: true, // Allow cookies and credentials if necessary
@@ -119,6 +121,7 @@ app.listen(port, function () {
 // app.use(bodyParser.json());
 // app.use(cors()); // Enable CORS for all routes
 // const corsOptions = {
+  //http://localhost:3000/
 //   origin: "http://localhost:3000", // Replace with your React app origin
 //   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 //   credentials: true, // Enable cookies and authorization headers
