@@ -114,47 +114,77 @@ async function handler(req, res) {
   } else if (req.method === "PATCH") {
     res.setHeader("Content-Type", "application/json"); // Set the content type if not set
 
-    console.log("heeeeeeeeeee");
-    console.log(req.body);
-    //const bodyData = JSON.parse(req.body);
+    const { vote, data, srcOfAvatar, memberName, visit } = req.body;
 
-    const productId = req.query.id;
-    const { vote, data, srcOfAvatar } = req.body;
-    const memberName = "amir";
-    console.log(memberName);
-    console.log("shttttttttttt");
-    console.log(srcOfAvatar);
+    if (visit) {
+      // Increment visit count
+      try {
+        const updatedProduct = await Product.findOneAndUpdate(
+          { id: Number(productId) }, // Query by `id`, not `_id`
+          { $inc: { visited: 1 } },
+          { new: true }
+        );
 
+        if (updatedProduct) {
+          res.status(200).json(updatedProduct);
+        } else {
+          res.status(404).send(`Product with ID ${productId} not found`);
+        }
+      } catch (error) {
+        console.error("Error updating visit count:", error);
+        res.status(500).send("Error while updating visit count");
+      }
+    } else {
+      // Add a comment
+      try {
+        const updatedProduct = await Product.findOneAndUpdate(
+          { id: Number(productId) }, // Query by `id`, not `_id`
+          {
+            $push: {
+              comments: {
+                vote: vote,
+                memberName: memberName,
+                date: {
+                  day: new Date().getDate(),
+                  month: new Date().getMonth() + 1,
+                  year: new Date().getFullYear(),
+                },
+                srcOfAvatar: srcOfAvatar,
+                data: {
+                  title: data.title,
+                  body: data.body,
+                },
+              },
+            },
+          },
+          { new: true }
+        );
+
+        if (updatedProduct) {
+          res.status(200).send(updatedProduct);
+        } else {
+          res.status(404).send(`Product with ID ${productId} not found`);
+        }
+      } catch (error) {
+        console.error("Error updating product:", error);
+        res.status(500).send("Error while updating product");
+      }
+    }
+  } else if (req.method === "DELETE") {
+    // Handle DELETE request - Delete a product by ID
     try {
-      const foundProduct = await Product.findById(productId);
-      if (foundProduct) {
-        // Add a new comment to the beginning of the product's comments array
-        foundProduct.comments.unshift({
-          vote: vote,
-          memberName: memberName,
-          date: {
-            day: new Date().getDate(),
-            month: new Date().getMonth() + 1,
-            year: new Date().getFullYear(),
-          },
-          srcOfAvatar: srcOfAvatar,
-          data: {
-            title: data.title,
-            body: data.body,
-          },
-        });
-
-        // Save the updated product with the new comment
-        const updatedProduct = await foundProduct.save();
-        res.status(200).send(updatedProduct);
+      const deletedProduct = await Product.findOneAndDelete({ id: Number(productId) }); // Query by `id`, not `_id`
+      if (deletedProduct) {
+        res.status(200).json({ message: "Product deleted successfully!" });
       } else {
         res.status(404).send(`Product with ID ${productId} not found`);
       }
     } catch (error) {
-      console.error(error);
-      res.status(500).send("Error while updating product");
+      console.error("Error deleting product:", error);
+      res.status(500).send("Error while deleting product");
     }
-  } else {
+  }
+else {
     res.status(405).send("Method Not Allowed");
   }
 }
