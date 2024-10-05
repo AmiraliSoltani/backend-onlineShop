@@ -1,34 +1,61 @@
-//jshint esversion:6
+
+
 
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
+const path = require("path");
+const cors = require("cors");
 
 const app = express();
-const cors = require("cors"); // Add this line
 
-app.use(cors()); // Enable CORS for all routes
+// Define CORS options
 const corsOptions = {
-  origin: "http://localhost:3000", // Replace with the origin of your React app
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true, // Enable cookies and authorization headers
+  // origin: "*", // Allow all origins. You can restrict this to specific domains if needed.
+  origin: "http://localhost:3000", // Replace with your React app origin
+
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
+  allowedHeaders: "Content-Type, Authorization", // Ensure you include Authorization header
+  credentials: true, // Allow cookies and credentials if necessary
 };
 
+// Apply CORS middleware
 app.use(cors(corsOptions));
-app.set("view engine", "ejs");
 
+// Preflight request handler (for OPTIONS requests)
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*"); // Allow all origins
+  res.setHeader("Access-Control-Allow-Methods", "GET, PATCH, POST, DELETE, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  
+  if (req.method === "OPTIONS") {
+    return res.status(200).end(); // Handle OPTIONS requests for preflight checks
+  }
+
+  next(); // Move to the next middleware or route handler
+});
+
+// Set up bodyParser for parsing request bodies
+app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
     extended: true,
   })
 );
-//app.use(express.static("public"));
 
-// mongoose.connect("mongodb://127.0.0.1:27017/onlineShop", {
-//   useNewUrlParser: true,
-// });
+// Set up the view engine as EJS
+app.set("view engine", "ejs");
 
+
+
+
+
+
+
+
+
+// Connect to MongoDB Atlas
 mongoose.connect(
   "mongodb+srv://asoltani7:wXxeR5GlT4n4X6z1@cluster0.efuoscy.mongodb.net/onlineShop?retryWrites=true&w=majority",
   {
@@ -36,285 +63,46 @@ mongoose.connect(
   }
 );
 
-// const productSchema = new mongoose.Schema({
-//   title: String,
-//   _id: Number,
-//   comments: [
-//     {
-//       vote: Number,
-//       memberName: String,
-//       date: {
-//         day: Number,
-//         month: Number,
-//         year: Number,
-//       },
-//       srcOfAvatar: Number,
-//       data: {
-//         title: String,
-//         body: String,
-//       },
-//     },
-//   ],
-//   title_En: String,
-//   description: String,
-//   price: Number,
-//   off: String,
-//   offerTime: String,
-//   categoryId: Number,
-//   categoryAttributes: [
-//     {
-//       id: String,
-//       items: [
-//         {
-//           id: Number,
-//           attItem: Number,
-//         },
-//       ],
-//       count: Number,
-//     },
-//   ],
-//   guarantee: {
-//     hasGuarantee: Boolean,
-//     guranteeDate: String,
-//     guranteeName: String,
-//   },
-//   productPic: {
-//     grey: String,
-//     grey2: String,
-//     grey3: String,
-//     grey4: String,
-//   },
-//   videoUrl: String,
-//   vote: Number,
-//   dailyRentalRate: [Number],
-//   visited: Number,
-//   sold: Number,
-// });
-// const Product = mongoose.model("products", productSchema);
-const path = require("path");
-
 // Assuming your index.html is in the same directory as your Node.js script
 const indexPath = path.join(__dirname, "index.html");
 
 app.get("/", function (req, res) {
-  //res.send("hi");
   res.sendFile(indexPath);
 });
-// app.get("/products", function (req, res) {
-//   // Use the "Product" model to find all products
-//   Product.find()
-//     .then((foundProducts) => {
-//       console.log(foundProducts);
-//       res.send(foundProducts); // Send the products as a response
-//     })
-//     .catch((err) => {
-//       console.error(err);
-//       res.status(500).send("Error while fetching products");
-//     });
-// });
 
-app.get("/products/:id", function (req, res) {
-  const productId = req.params.id;
+// Import and set up category routes
+const categoriesHandler = require('./api/categories');
+app.use('/categories', categoriesHandler);
 
-  // Use the "Product" model to find the specific product by ID
-  Product.findById(productId)
-    .then((foundProduct) => {
-      if (foundProduct) {
-        console.log(foundProduct);
-        res.send(foundProduct);
-      } else {
-        res.status(404).send("Product not found");
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Error while fetching product");
-    });
-});
+// Import and set up product routes
+const productsHandler = require('./api/products');
+app.use('/products', productsHandler);
 
-app.get("/products/category/:categoryId", function (req, res) {
-  const categoryId = req.params.categoryId;
 
-  // Use the "Product" model to find products based on the category ID
-  Product.find({ categoryId: categoryId })
-    .then((foundProducts) => {
-      console.log(foundProducts);
-      res.send(foundProducts);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Error while fetching products");
-    });
-});
+const productHandler = require('./api/product/[id]');
+app.use('/product/:id', productHandler); // Route expects 'id' as a parameter
 
-// const categorySchema = new mongoose.Schema({
-//   categoryPicture: String,
-//   iconPic: String,
-//   description: String,
-//   id: Number,
-//   order: Number,
-//   parentId: Number,
-//   title: String,
-// });
 
-// const Category = mongoose.model("categories", categorySchema);
+// Import and set up search routes
+const searchHandler = require('./api/search');
+app.use('/search', searchHandler);
 
-app.get("/categories", function (req, res) {
-  // Use the "Category" model to find all categories
-  Category.find()
-    .then((foundCategories) => {
-      console.log(foundCategories);
-      res.send(foundCategories);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Error while fetching categories");
-    });
-});
-
-app.get("/categories/:id", function (req, res) {
-  const categoryId = req.params.id;
-
-  // Use the "Category" model to find the specific category by ID
-  // Use the "Product" model to find the specific product by custom ID
-  Category.findOne({ id: categoryId })
-    .then((foundCategory) => {
-      if (foundCategory) {
-        console.log(foundCategory);
-        res.send(foundCategory);
-      } else {
-        res.status(404).send("category not found");
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Error while fetching category");
-    });
-});
-
+// MongoDB connection status listeners
 const db = mongoose.connection;
 
-// Event listener for successful connection
 db.once("connected", () => {
   console.log("Connected to MongoDB Atlas");
 });
 
-// Event listener for connection errors
 db.on("error", (err) => {
   console.error(`MongoDB connection error: ${err}`);
 });
 
+// Set the port and start the server
 const port = process.env.PORT || 3010;
 app.listen(port, function () {
   console.log(`Server started on port ${port}`);
 });
-
-
-
-
-
-// const express = require("express");
-// const bodyParser = require("body-parser");
-// const ejs = require("ejs");
-// const mongoose = require("mongoose");
-// const path = require("path");
-// const cors = require("cors");
-
-// const app = express();
-
-// // Define CORS options
-// const corsOptions = {
-//   // origin: "*", // Allow all origins. You can restrict this to specific domains if needed.
-//   origin: "http://localhost:3000", // Replace with your React app origin
-
-//   methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
-//   allowedHeaders: "Content-Type, Authorization", // Ensure you include Authorization header
-//   credentials: true, // Allow cookies and credentials if necessary
-// };
-
-// // Apply CORS middleware
-// app.use(cors(corsOptions));
-
-// // Preflight request handler (for OPTIONS requests)
-// app.use((req, res, next) => {
-//   res.setHeader("Access-Control-Allow-Origin", "*"); // Allow all origins
-//   res.setHeader("Access-Control-Allow-Methods", "GET, PATCH, POST, DELETE, OPTIONS");
-//   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  
-//   if (req.method === "OPTIONS") {
-//     return res.status(200).end(); // Handle OPTIONS requests for preflight checks
-//   }
-
-//   next(); // Move to the next middleware or route handler
-// });
-
-// // Set up bodyParser for parsing request bodies
-// app.use(bodyParser.json());
-// app.use(
-//   bodyParser.urlencoded({
-//     extended: true,
-//   })
-// );
-
-// // Set up the view engine as EJS
-// app.set("view engine", "ejs");
-
-
-
-
-
-
-
-
-
-// // Connect to MongoDB Atlas
-// mongoose.connect(
-//   "mongodb+srv://asoltani7:wXxeR5GlT4n4X6z1@cluster0.efuoscy.mongodb.net/onlineShop?retryWrites=true&w=majority",
-//   {
-//     useNewUrlParser: true,
-//   }
-// );
-
-// // Assuming your index.html is in the same directory as your Node.js script
-// const indexPath = path.join(__dirname, "index.html");
-
-// app.get("/", function (req, res) {
-//   res.sendFile(indexPath);
-// });
-
-// // Import and set up category routes
-// const categoriesHandler = require('./api/categories');
-// app.use('/categories', categoriesHandler);
-
-// // Import and set up product routes
-// const productsHandler = require('./api/products');
-// app.use('/products', productsHandler);
-
-
-// const productHandler = require('./api/product/[id]');
-// app.use('/product/:id', productHandler); // Route expects 'id' as a parameter
-
-
-// // Import and set up search routes
-// const searchHandler = require('./api/search');
-// app.use('/search', searchHandler);
-
-// // MongoDB connection status listeners
-// const db = mongoose.connection;
-
-// db.once("connected", () => {
-//   console.log("Connected to MongoDB Atlas");
-// });
-
-// db.on("error", (err) => {
-//   console.error(`MongoDB connection error: ${err}`);
-// });
-
-// // Set the port and start the server
-// const port = process.env.PORT || 3010;
-// app.listen(port, function () {
-//   console.log(`Server started on port ${port}`);
-// });
 
 
 
