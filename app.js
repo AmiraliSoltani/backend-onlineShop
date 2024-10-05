@@ -10,7 +10,7 @@ const cors = require("cors"); // Add this line
 
 app.use(cors()); // Enable CORS for all routes
 const corsOptions = {
-  origin: "http://localhost:3000", // Replace with the origin of your React app
+  origin: "*", // Replace with the origin of your React app
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true, // Enable cookies and authorization headers
 };
