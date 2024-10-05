@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const cors = require("micro-cors")({
   allowMethods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
   allowHeaders: ["Authorization", "Content-Type"],
-  origin: "http://localhost:3000", // Replace with the origin of your React app
+  origin: "*", // Replace with the origin of your React app
 });
 
 // Connect to MongoDB
