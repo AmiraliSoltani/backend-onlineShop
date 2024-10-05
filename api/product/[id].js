@@ -1,4 +1,3 @@
-
 // api/products.js
 const express = require("express");
 const app = express();
@@ -164,7 +163,6 @@ const corsHandler = cors(handler);
 
 // Apply CORS to the handler and export it
 module.exports = corsHandler;
-
 
 
 
