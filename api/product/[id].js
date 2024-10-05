@@ -112,6 +112,7 @@ async function handler(req, res) {
       res.status(500).send("Error while fetching product");
     }
   } else if (req.method === "PATCH") {
+    const productId = req.query.id;
     res.setHeader("Content-Type", "application/json"); // Set the content type if not set
 
     const { vote, data, srcOfAvatar, memberName, visit } = req.body;
