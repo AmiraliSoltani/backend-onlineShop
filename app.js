@@ -48,26 +48,6 @@ app.get("/", function (req, res) {
 });
 
 
-// app.get("/products/:id", function (req, res) {
-//   const productId = req.params.id;
-
-//   // Use the "Product" model to find the specific product by ID
-//   Product.findById(productId)
-//     .then((foundProduct) => {
-//       if (foundProduct) {
-//         console.log(foundProduct);
-//         res.send(foundProduct);
-//       } else {
-//         res.status(404).send("Product not found");
-//       }
-//     })
-//     .catch((err) => {
-//       console.error(err);
-//       res.status(500).send("Error while fetching product");
-//     });
-// });
-
-
 
 const db = mongoose.connection;
 

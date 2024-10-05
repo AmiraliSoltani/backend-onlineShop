@@ -17,9 +17,72 @@ mongoose.connect(
     useUnifiedTopology: true,
   }
 );
+// const productSchema = new mongoose.Schema({
+//   title: String,
+//   _id: Number,
+//   comments: [
+//     {
+//       vote: Number,
+//       memberName: String,
+//       date: {
+//         day: Number,
+//         month: Number,
+//         year: Number,
+//       },
+//       srcOfAvatar: Number,
+//       data: {
+//         title: String,
+//         body: String,
+//       },
+//     },
+//   ],
+//   title_En: String,
+//   description: String,
+//   price: Number,
+//   off: String,
+//   offerTime: String,
+//   categoryId: Number,
+//   categoryAttributes: [
+//     {
+//       id: String,
+//       items: [
+//         {
+//           id: Number,
+//           attItem: Number,
+//         },
+//       ],
+//       count: Number,
+//     },
+//   ],
+//   guarantee: {
+//     hasGuarantee: Boolean,
+//     guranteeDate: String,
+//     guranteeName: String,
+//   },
+//   productPic: {
+//     grey: String,
+//     grey2: String,
+//     grey3: String,
+//     grey4: String,
+//   },
+//   videoUrl: String,
+//   vote: Number,
+//   dailyRentalRate: [Number],
+//   visited: Number,
+//   sold: Number,
+// });
+// const Product = mongoose.model("products", productSchema);
+
+
+
+// Define the Product schema and model
 const productSchema = new mongoose.Schema({
+  id: {
+    type: Number,
+    unique: true,
+    required: true,
+  },
   title: String,
-  _id: Number,
   comments: [
     {
       vote: Number,
@@ -60,18 +123,29 @@ const productSchema = new mongoose.Schema({
     guranteeName: String,
   },
   productPic: {
-    grey: String,
-    grey2: String,
-    grey3: String,
-    grey4: String,
+    type: Map,
+    of: String,
   },
   videoUrl: String,
   vote: Number,
   dailyRentalRate: [Number],
   visited: Number,
   sold: Number,
+  productHighlights: String,
+  specifications: {
+    material: String,
+    fit: String,
+    suitableSeason: String,
+    pattern: String,
+    occasion: String,
+    sleeveLength: String,
+    collarType: String,
+    closureType: String,
+    careInstructions: String,
+  },
 });
-const Product = mongoose.model("products", productSchema);
+
+const Product = mongoose.models.Product || mongoose.model("Product", productSchema);
 
 async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Credentials", true);
@@ -119,8 +193,7 @@ async function handler(req, res) {
     //const bodyData = JSON.parse(req.body);
 
     const productId = req.query.id;
-    const { vote, data, srcOfAvatar } = req.body;
-    const memberName = "amir";
+    const { vote, data, srcOfAvatar,memberName } = req.body;
     console.log(memberName);
     console.log("shttttttttttt");
     console.log(srcOfAvatar);
