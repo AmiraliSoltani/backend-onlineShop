@@ -48,73 +48,26 @@ app.get("/", function (req, res) {
 });
 
 
-app.get("/products/:id", function (req, res) {
-  const productId = req.params.id;
+// app.get("/products/:id", function (req, res) {
+//   const productId = req.params.id;
 
-  // Use the "Product" model to find the specific product by ID
-  Product.findById(productId)
-    .then((foundProduct) => {
-      if (foundProduct) {
-        console.log(foundProduct);
-        res.send(foundProduct);
-      } else {
-        res.status(404).send("Product not found");
-      }
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send("Error while fetching product");
-    });
-});
-
-// app.get("/products/category/:categoryId", function (req, res) {
-//   const categoryId = req.params.categoryId;
-
-//   // Use the "Product" model to find products based on the category ID
-//   Product.find({ categoryId: categoryId })
-//     .then((foundProducts) => {
-//       console.log(foundProducts);
-//       res.send(foundProducts);
-//     })
-//     .catch((err) => {
-//       console.error(err);
-//       res.status(500).send("Error while fetching products");
-//     });
-// });
-
-
-// app.get("/categories", function (req, res) {
-//   // Use the "Category" model to find all categories
-//   Category.find()
-//     .then((foundCategories) => {
-//       console.log(foundCategories);
-//       res.send(foundCategories);
-//     })
-//     .catch((err) => {
-//       console.error(err);
-//       res.status(500).send("Error while fetching categories");
-//     });
-// });
-
-// app.get("/categories/:id", function (req, res) {
-//   const categoryId = req.params.id;
-
-//   // Use the "Category" model to find the specific category by ID
-//   // Use the "Product" model to find the specific product by custom ID
-//   Category.findOne({ id: categoryId })
-//     .then((foundCategory) => {
-//       if (foundCategory) {
-//         console.log(foundCategory);
-//         res.send(foundCategory);
+//   // Use the "Product" model to find the specific product by ID
+//   Product.findById(productId)
+//     .then((foundProduct) => {
+//       if (foundProduct) {
+//         console.log(foundProduct);
+//         res.send(foundProduct);
 //       } else {
-//         res.status(404).send("category not found");
+//         res.status(404).send("Product not found");
 //       }
 //     })
 //     .catch((err) => {
 //       console.error(err);
-//       res.status(500).send("Error while fetching category");
+//       res.status(500).send("Error while fetching product");
 //     });
 // });
+
+
 
 const db = mongoose.connection;
 
