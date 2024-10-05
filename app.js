@@ -3,36 +3,29 @@ const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
 const path = require("path");
+const cors = require("cors");
 
 const app = express();
 
-// Middleware to enable CORS for all routes
-const cors = require("cors");
-
-// const corsOptions = {
-//   origin: "*", // Allow any origin for now, can be restricted to specific domains
-//   methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
-//   allowedHeaders: "Content-Type, Authorization",
-//   credentials: true, // Include credentials like cookies in requests
-// };
-
+// Define CORS options
 const corsOptions = {
-  origin: "http://localhost:3000", // Replace with your React app origin
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true, // Enable cookies and authorization headers
+  origin: "*", // Allow all origins. You can restrict this to specific domains if needed.
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
+  allowedHeaders: "Content-Type, Authorization", // Ensure you include Authorization header
+  credentials: true, // Allow cookies and credentials if necessary
 };
 
-// Apply the CORS middleware
+// Apply CORS middleware
 app.use(cors(corsOptions));
 
-// Preflight request handler for OPTIONS method (important for CORS)
+// Preflight request handler (for OPTIONS requests)
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*"); // Allow all origins
   res.setHeader("Access-Control-Allow-Methods", "GET, PATCH, POST, DELETE, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-
+  
   if (req.method === "OPTIONS") {
-    return res.status(200).end(); // End the request for preflight checks
+    return res.status(200).end(); // Handle OPTIONS requests for preflight checks
   }
 
   next(); // Move to the next middleware or route handler
@@ -48,6 +41,13 @@ app.use(
 
 // Set up the view engine as EJS
 app.set("view engine", "ejs");
+
+
+
+
+
+
+
 
 
 // Connect to MongoDB Atlas
