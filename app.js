@@ -49,9 +49,10 @@ app.use('/categories', categoriesHandler);
 const productsHandler = require('./api/products');
 app.use('/products', productsHandler);
 
-// Import and set up dynamic product ID route
-const productByIdHandler = require('./api/product/[id]');
-app.use('/product', productByIdHandler);
+
+const productHandler = require('./api/product/[id]');
+app.use('/product/:id', productHandler); // Route expects 'id' as a parameter
+
 
 // Import and set up search routes
 const searchHandler = require('./api/search');

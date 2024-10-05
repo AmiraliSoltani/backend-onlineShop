@@ -11,6 +11,7 @@ mongoose.connect(
 
 // Check if the model is already compiled before defining it
 const Product = mongoose.models.Product || mongoose.model("Product", new mongoose.Schema({
+  //_id: false, // Disable automatic `_id` field creation by Mongoose
   id: {
     type: Number,
     unique: true, // Ensure the id is unique
