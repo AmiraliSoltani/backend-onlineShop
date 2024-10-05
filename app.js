@@ -1,36 +1,32 @@
-
-
+//jshint esversion:6
 
 const express = require("express");
 const bodyParser = require("body-parser");
-const ejs = require("ejs");
 const mongoose = require("mongoose");
 const path = require("path");
 const cors = require("cors");
 
 const app = express();
 
-// Define CORS options
+// CORS Configuration
 const corsOptions = {
-  // origin: "*", // Allow all origins. You can restrict this to specific domains if needed.
-  origin: "http://localhost:3000", // Replace with your React app origin
-
+  origin: "http://localhost:3000", // Replace with your React app origin or use '*' for all origins
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
-  allowedHeaders: "Content-Type, Authorization", // Ensure you include Authorization header
-  credentials: true, // Allow cookies and credentials if necessary
+  credentials: true, // Enable cookies and authorization headers
+  allowedHeaders: "Content-Type, Authorization"
 };
 
 // Apply CORS middleware
 app.use(cors(corsOptions));
 
-// Preflight request handler (for OPTIONS requests)
+// Preflight request handler for OPTIONS method
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*"); // Allow all origins
   res.setHeader("Access-Control-Allow-Methods", "GET, PATCH, POST, DELETE, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  
+
   if (req.method === "OPTIONS") {
-    return res.status(200).end(); // Handle OPTIONS requests for preflight checks
+    return res.status(200).end(); // Handle preflight requests
   }
 
   next(); // Move to the next middleware or route handler
@@ -47,45 +43,14 @@ app.use(
 // Set up the view engine as EJS
 app.set("view engine", "ejs");
 
-
-
-
-
-
-
-
-
 // Connect to MongoDB Atlas
 mongoose.connect(
   "mongodb+srv://asoltani7:wXxeR5GlT4n4X6z1@cluster0.efuoscy.mongodb.net/onlineShop?retryWrites=true&w=majority",
   {
     useNewUrlParser: true,
+    useUnifiedTopology: true, // Enable the new unified topology engine in Mongoose
   }
 );
-
-// Assuming your index.html is in the same directory as your Node.js script
-const indexPath = path.join(__dirname, "index.html");
-
-app.get("/", function (req, res) {
-  res.sendFile(indexPath);
-});
-
-// Import and set up category routes
-const categoriesHandler = require('./api/categories');
-app.use('/categories', categoriesHandler);
-
-// Import and set up product routes
-const productsHandler = require('./api/products');
-app.use('/products', productsHandler);
-
-
-const productHandler = require('./api/product/[id]');
-app.use('/product/:id', productHandler); // Route expects 'id' as a parameter
-
-
-// Import and set up search routes
-const searchHandler = require('./api/search');
-app.use('/search', searchHandler);
 
 // MongoDB connection status listeners
 const db = mongoose.connection;
@@ -98,15 +63,25 @@ db.on("error", (err) => {
   console.error(`MongoDB connection error: ${err}`);
 });
 
+// Import product routes
+const productHandler = require('./api/product/[id]');
+app.use('/product/:id', productHandler); // Route expects 'id' as a parameter
+
+// Import search routes
+const searchHandler = require('./api/search');
+app.use('/search', searchHandler);
+
+// Basic route to serve the index page
+const indexPath = path.join(__dirname, "index.html");
+app.get("/", function (req, res) {
+  res.sendFile(indexPath);
+});
+
 // Set the port and start the server
 const port = process.env.PORT || 3010;
 app.listen(port, function () {
   console.log(`Server started on port ${port}`);
 });
-
-
-
-
 
 
 
