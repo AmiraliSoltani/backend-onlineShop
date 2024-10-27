@@ -39,6 +39,7 @@ const Product = mongoose.models.Product || mongoose.model("Product", new mongoos
   price: Number,
   off: String,
   offerTime: String,
+  Brand:String,
   categoryId: Number,
   categoryAttributes: [
     {
@@ -67,17 +68,7 @@ const Product = mongoose.models.Product || mongoose.model("Product", new mongoos
   visited: Number,
   sold: Number,
   productHighlights: String,
-  specifications: {
-    material: String,
-    fit: String,
-    suitableSeason: String,
-    pattern: String,
-    occasion: String,
-    sleeveLength: String,
-    collarType: String,
-    closureType: String,
-    careInstructions: String,
-  },
+  specifications: Object,
 }));
 
 // The main handler function for GET, POST, DELETE methods
