@@ -67,21 +67,64 @@ const productSchema = new mongoose.Schema({
 });
 const Product = mongoose.model("products", productSchema);
 
-async function handler(req, res) {
-  if (req.method !== "GET") {
-    return res.status(405).json({ error: "Method Not Allowed" });
-  }
+// async function handler(req, res) {
+//   if (req.method !== "GET") {
+//     return res.status(405).json({ error: "Method Not Allowed" });
+//   }
 
-  try {
-    // Use the "Product" model to find all products
-    const foundProducts = await Product.find();
-    console.log(foundProducts);
-    res.status(200).json(foundProducts);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Error while fetching products" });
+//   try {
+//     // Use the "Product" model to find all products
+//     const foundProducts = await Product.find();
+//     console.log(foundProducts);
+//     res.status(200).json(foundProducts);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: "Error while fetching products" });
+//   }
+// }
+
+
+
+async function handler(req, res) {
+  if (req.method === "GET") {
+    try {
+      // Fetch all products
+      const foundProducts = await Product.find();
+      console.log(foundProducts);
+      res.status(200).json(foundProducts);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Error while fetching products" });
+    }
+  } else if (req.method === "PUT") {
+    try {
+      const { productId, updates } = req.body;
+
+      if (!productId || !updates) {
+        return res.status(400).json({ error: "Product ID and updates are required" });
+      }
+
+      // Update the product with the provided updates
+      const updatedProduct = await Product.findByIdAndUpdate(productId, updates, {
+        new: true,
+      });
+
+      if (!updatedProduct) {
+        return res.status(404).json({ error: "Product not found" });
+      }
+
+      res.status(200).json(updatedProduct);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Error while updating product" });
+    }
+  } else {
+    res.status(405).json({ error: "Method Not Allowed" });
   }
 }
+
+
+
 // Apply CORS middleware to the handler
 const corsHandler = cors(handler);
 
