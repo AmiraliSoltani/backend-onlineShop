@@ -120,6 +120,7 @@ async function handler(req, res) {
   }
 
   if (req.method === "PUT") {
+    console.log("hiiiii")
     try {
       const { id } = req.query; // Get the product ID from the query
       if (!id) {
@@ -147,7 +148,7 @@ async function handler(req, res) {
   }
   
 
-  return res.status(405).json({ error: "Method Not Allowed" });
+  return res.status(405).json({ error: "Method Not Allowed!" });
 }
 
 // Apply CORS middleware to the handler
