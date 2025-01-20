@@ -71,6 +71,7 @@ const productSchema = new mongoose.Schema({
   dailyRentalRate: [Number],
   visited: Number,
   sold: Number,
+  productDescriptions:[],
 });
 
 // Check if the Product model is already compiled

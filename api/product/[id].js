@@ -68,6 +68,7 @@ const productSchema = new mongoose.Schema({
   dailyRentalRate: [Number],
   visited: Number,
   sold: Number,
+  productDescriptions:[],
 });
 const Product = mongoose.model("products", productSchema);
 
@@ -205,6 +206,33 @@ async function handler(req, res) {
       res.status(500).send("Error while deleting product");
     }
   }
+
+  if (req.method === "PUT") {
+    const productId = req.query.id;
+    const updatedData = req.body; // Extract updated data from request body
+  
+    if (!productId || !updatedData) {
+      return res.status(400).json({ error: "Product ID and update data are required" });
+    }
+  
+    try {
+      const updatedProduct = await Product.findOneAndUpdate(
+        { id: Number(productId) }, // Find product by `id`
+        { $set: updatedData }, // Update fields
+        { new: true } // Return the updated document
+      );
+  
+      if (updatedProduct) {
+        res.status(200).json(updatedProduct);
+      } else {
+        res.status(404).json({ error: `Product with ID ${productId} not found` });
+      }
+    } catch (error) {
+      console.error("Error updating product:", error);
+      res.status(500).json({ error: "Error while updating product" });
+    }
+  }
+  
 else {
     res.status(405).send("Method Not Allowed");
   }
